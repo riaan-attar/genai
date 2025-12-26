@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/apple-icon.png' %}">
+<link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}">
+<title>
+    HireMe.AI
+  </title>
+  <!--     Fonts and icons     -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <!-- Nucleo Icons -->
+  <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-svg.css" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <!-- CSS Files -->
+<link id="pagestyle" href="{% static 'assets/css/argon-dashboard.css' %}?v=2.1.0" rel="stylesheet" />
+</head>
+
+<body class="g-sidenav-show   bg-gray-100">
+  <div class="min-height-300 bg-dark position-absolute w-100"></div>
+  {% include 'applicant/sidenav.html' %}
+  <main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Applicant</li>
+          </ol>
+          <h6 class="font-weight-bolder text-white mb-0">Take Quiz</h6>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group">
+              <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" placeholder="Type here...">
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-2">
+        <div class="container mt-1">
+          <div class="row">
+            <div id="quiz" class = "card">
+
+            
+                <form method="post">
+                    <div id="quiz-questions"class="mt-1" style="height: 350px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; border-radius: 5px;">
+                        <!-- Question 1 -->
+                        <div class="question">
+                            <p>1. What is the output of `print(2 ** 3)`?</p>
+                            <input type="radio" name="question1" value="a"> 5<br>
+                            <input type="radio" name="question1" value="b"> 6<br>
+                            <input type="radio" name="question1" value="c"> 8<br>
+                            <input type="radio" name="question1" value="d"> 9<br>
+                            <hr>
+                        </div>
+                        <!-- Question 2 -->
+                        <div class="question">
+                            <p>2. Which of the following is a mutable data type in Python?</p>
+                            <input type="radio" name="question2" value="a"> Tuple<br>
+                            <input type="radio" name="question2" value="b"> String<br>
+                            <input type="radio" name="question2" value="c"> List<br>
+                            <input type="radio" name="question2" value="d"> Range<br>
+                            <hr>
+                        </div>
+                        <!-- Question 3 -->
+                        <div class="question">
+                            <p>3. What does the `len()` function do in Python?</p>
+                            <input type="radio" name="question3" value="a"> Returns the number of characters in a string<br>
+                            <input type="radio" name="question3" value="b"> Returns the length of an object<br>
+                            <input type="radio" name="question3" value="c"> Returns the type of an object<br>
+                            <input type="radio" name="question3" value="d"> Returns the sorted version of a list<br>
+                            <hr>
+                        </div>
+                        <!-- Question 4 -->
+                        <div class="question">
+                            <p>4. Which method is used to add an item to a list in Python?</p>
+                            <input type="radio" name="question4" value="a"> append()<br>
+                            <input type="radio" name="question4" value="b"> add()<br>
+                            <input type="radio" name="question4" value="c"> extend()<br>
+                            <input type="radio" name="question4" value="d"> insert()<br>
+                            <hr>
+                        </div>
+                        <!-- Question 5 -->
+                        <div class="question">
+                            <p>5. Which keyword is used to define a function in Python?</p>
+                            <input type="radio" name="question5" value="a"> func<br>
+                            <input type="radio" name="question5" value="b"> function<br>
+                            <input type="radio" name="question5" value="c"> def<br>
+                            <input type="radio" name="question5" value="d"> define<br>
+                            <hr>
+                        </div>
+                        <!-- Question 6 -->
+                        <div class="question">
+                            <p>6. What is the output of `print(type([]))` in Python?</p>
+                            <input type="radio" name="question6" value="a"> <class 'tuple'><br>
+                            <input type="radio" name="question6" value="b"> <class 'list'><br>
+                            <input type="radio" name="question6" value="c"> <class 'dict'><br>
+                            <input type="radio" name="question6" value="d"> <class 'set'><br>
+                            <hr>
+                        </div>
+                        <!-- Question 7 -->
+                        <div class="question">
+                            <p>7. Which of the following loops in Python is used to iterate over a sequence?</p>
+                            <input type="radio" name="question7" value="a"> while<br>
+                            <input type="radio" name="question7" value="b"> for<br>
+                            <input type="radio" name="question7" value="c"> do-while<br>
+                            <input type="radio" name="question7" value="d"> loop<br>
+                            <hr>
+                        </div>
+                        <!-- Question 8 -->
+                        <div class="question">
+                            <p>8. Which operator is used for exponentiation in Python?</p>
+                            <input type="radio" name="question8" value="a"> ^<br>
+                            <input type="radio" name="question8" value="b"> *<br>
+                            <input type="radio" name="question8" value="c"> **<br>
+                            <input type="radio" name="question8" value="d"> //<br>
+                            <hr>
+                        </div>
+                        <!-- Question 9 -->
+                        <div class="question">
+                            <p>9. Which of the following statements is correct in Python?</p>
+                            <input type="radio" name="question9" value="a"> Python uses {} for blocks<br>
+                            <input type="radio" name="question9" value="b"> Python uses indentation for blocks<br>
+                            <input type="radio" name="question9" value="c"> Python uses : for loops only<br>
+                            <input type="radio" name="question9" value="d"> Python uses None for loops<br>
+                            <hr>
+                        </div>
+                        <!-- Question 10 -->
+                        <div class="question">
+                            <p>10. What is the output of `bool(0)` in Python?</p>
+                            <input type="radio" name="question10" value="a"> True<br>
+                            <input type="radio" name="question10" value="b"> False<br>
+                            <input type="radio" name="question10" value="c"> Error<br>
+                            <input type="radio" name="question10" value="d"> None<br>
+                            <hr>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary ms-2 mt-1">Submit Answers</button>
+                </form>
+                
+    </div>
+          </div>
+        </div>
+        <div class="row mt-2"></div>
+            <div id="compiler" class="card">
+            <div class="card-body" style="height: 450px;">
+                <iframe frameBorder="0" height="100%" src="https://onecompiler.com/embed/python" width="100%"></iframe>
+            </div>
+            </div> 
+        </div>
+          </div>
+  </main>
+  
+  <!--   Core JS Files   -->
+<script src="{% static 'assets/js/core/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+</script>
+<!-- Github buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="{% static 'assets/js/argon-dashboard.min.js' %}?v=2.1.0"></script>
+</body>
+
+</html>

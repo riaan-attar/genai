@@ -1,0 +1,181 @@
+{% load static %}
+<!-- an page for hr to manage jobs here hr can add new jobs, view existing jobs, edit and delete jobs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/apple-icon.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}">
+    <title>
+        HireMe.AI
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- CSS Files -->
+    <link id="pagestyle" href="{% static 'assets/css/argon-dashboard.css' %}?v=2.1.0" rel="stylesheet" />
+</head>
+
+<body class="g-sidenav-show   bg-gray-100">
+  <div class="min-height-300 bg-dark position-absolute w-100"></div>
+  {% include 'hr/sidebar.html' %}
+  <main class="main-content position-relative border-radius-lg">
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur">
+        <div class="container-fluid py-1 px-3">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
+                    <li class="breadcrumb-item text-sm text-white active" aria-current="page">HR</li>
+                </ol>
+                <h6 class="font-weight-bolder text-white mb-0">Manage Quiz</h6>
+            </nav>
+        </div>
+    </nav>
+    <div>
+        <div class="container py-4">
+    
+            <!-- Job Cards -->
+            <div class="row">
+                <!-- Job Card -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Software Engineer</h5>
+                            <p class="card-text">Edit the quiz for Software Engineer position.</p>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editQuizModal" onclick="loadQuiz('Software Engineer')">
+                                Edit Quiz
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more job cards dynamically -->
+                <div class="col-md-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">Data Scientist</h5>
+                            <p class="card-text">Edit the quiz for Data Scientist position.</p>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editQuizModal" onclick="loadQuiz('Data Scientist')">
+                                Edit Quiz
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Edit Quiz Modal -->
+<div class="modal fade" id="editQuizModal" tabindex="-1" aria-labelledby="editQuizModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editQuizModalLabel">Edit Quiz for <span id="jobTitle"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="quizForm">
+                    <div id="quizQuestions">
+                        <!-- Template for Question-Answer pairs -->
+                        <div class="mb-3 question-answer">
+                            <label for="question1" class="form-label">Question 1</label>
+                            <input type="text" class="form-control" id="question1" name="question1" placeholder="Enter question 1" required>
+                            <label for="answer1" class="form-label mt-2">Answer 1</label>
+                            <textarea class="form-control" id="answer1" name="answer1" placeholder="Enter answer 1" rows="2" required></textarea>
+                        </div>
+
+                        <div class="mb-3 question-answer">
+                            <label for="question2" class="form-label">Question 2</label>
+                            <input type="text" class="form-control" id="question2" name="question2" placeholder="Enter question 2" required>
+                            <label for="answer2" class="form-label mt-2">Answer 2</label>
+                            <textarea class="form-control" id="answer2" name="answer2" placeholder="Enter answer 2" rows="2" required></textarea>
+                        </div>
+
+                        <!-- Add more question-answer pairs dynamically as needed -->
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" form="quizForm">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </div>
+    
+        <!-- Bootstrap Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+        <!-- JavaScript -->
+        <script>
+            function loadQuiz(jobName) {
+                document.getElementById('jobTitle').innerText = jobName;
+                // Additional logic to load quiz questions for the selected job can be added here
+            }
+        </script>
+    </div>
+</main>
+
+  
+<!-- Overlay -->
+<div id="modalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+background: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+
+<!-- JavaScript -->
+<script>
+function openModal(modalId) {
+document.getElementById(modalId).style.display = 'block';
+document.getElementById('modalOverlay').style.display = 'block';
+}
+
+function closeModal(modalId) {
+document.getElementById(modalId).style.display = 'none';
+document.getElementById('modalOverlay').style.display = 'none';
+}
+</script>
+
+<!-- Background Overlay -->
+<div id="modalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+     background: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+  <script>
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      const overlay = document.getElementById('modalOverlay');
+      modal.style.display = 'block';
+      overlay.style.display = 'block';
+    }
+  
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      const overlay = document.getElementById('modalOverlay');
+      modal.style.display = 'none';
+      overlay.style.display = 'none';
+    }
+  </script>
+  
+  
+  <!--   Core JS Files   -->
+<script src="{% static 'assets/js/core/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="{% static 'assets/js/argon-dashboard.min.js' %}?v=2.1.0"></script>
+</body>
+</html>

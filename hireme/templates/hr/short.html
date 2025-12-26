@@ -1,0 +1,386 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'assets/img/apple-icon.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.png' %}">
+    <title>
+        HireMe.AI
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="https://demos.creative-tim.com/argon-dashboard-pro/assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <!-- CSS Files -->
+    <link id="pagestyle" href="{% static 'assets/css/argon-dashboard.css' %}?v=2.1.0" rel="stylesheet" />
+</head>
+
+<body class="g-sidenav-show   bg-gray-100">
+  <div class="min-height-300 bg-dark position-absolute w-100"></div>
+  {% include 'hr/sidebar.html' %}
+  <main class="main-content position-relative border-radius-lg ">
+    <!-- Navbar -->
+    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+      <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page"></li>
+          </ol>
+          <h6 class="font-weight-bolder text-white mb-0">Shortlisted Candidates</h6>
+        </nav>
+        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+            <div class="input-group">
+              <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
+              <input type="text" class="form-control" placeholder="Type here...">
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="container-fluid py-4">
+      <div class="row">
+        <!-- Filter Section -->
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Filter Candidates</h6>
+                </div>
+                <div class="card-body">
+                    <form id="filterForm" class="row g-3" method="POST">
+                        <!-- Job Name Filter -->
+                        {% csrf_token %}
+                        <div class="col-md-4">
+                            <label for="jobNameFilter" class="form-label">Job Name</label>
+                            <select id="jobNameFilter" class="form-select" name = "job_title" required>
+                                <option selected disabled>Select Job</option>
+                                {% for job in jobs %}
+                                <option  value="{{ job.title }}">{{ job.title }}</option>
+                                
+                                {% endfor %}
+                                <!-- Add more job options dynamically if needed -->
+                            </select>
+                        </div>
+                        <!-- Number of Top Applicants -->
+                        <div class="col-md-4">
+                            <label for="topApplicantsFilter" class="form-label">Number of Top Applicants</label>
+                            <input type="number" name="top_applicants" id="topApplicantsFilter" class="form-control" value="5" min="1" max="100" required>
+                        </div>
+                        <!-- Score Threshold -->
+                        <div class="col-md-4">
+                            <label for="scoreThresholdFilter" class="form-label">JD Match Threshold</label>
+                            <input type="number" name="score" id="scoreThresholdFilter" class="form-control" value="7" min="1" max="10" step="0.1" required>
+                        </div>
+                        <!-- Filter Button -->
+                        <div class="col-12 mt-3">
+                            <button type="submit" class="btn btn-primary">Apply Filters</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0">
+        <h6>Shortlisted Candidates</h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+        <div class="table-responsive p-0">
+          <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Candidates</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Post</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">JD Match</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Soft Skill Score</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"></th>
+            <th class="text-secondary opacity-7"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if Candidates %}
+            {% for cand in Candidates %}
+            <tr>
+            <td>
+              <div class="d-flex px-2 py-1">
+              <div>
+                <img src="{% static 'assets/img/team-2.jpg' %}" class="avatar avatar-sm me-3" alt="user1">
+              </div>
+              <div class="d-flex flex-column justify-content-center">
+                <h6 class="mb-0 text-sm">{{ cand.applicant }}</h6>
+                <p class="text-xs text-secondary mb-0"></p>
+              </div>
+              </div>
+            </td>
+            <td>
+              <p class="text-xs font-weight-bold mb-0">{{cand.job}}</p>
+              <p class="text-xs text-secondary mb-0"></p>
+            </td>
+            <td class="align-middle text-center text-sm">
+              <span class="badge badge-sm bg-gradient-success">ShortListed</span>
+            </td>
+            <td class="align-middle text-center">
+              <span class="text-secondary text-xs font-weight-bold">{{cand.score_percentage }} %</span>
+            </td>
+            <td class="align-middle text-center">
+              <span class="text-secondary text-xs font-weight-bold">{{cand.applicant.soft_score}} / 10</span>
+            </td>
+            <td class="align-middle">
+              <a href="javascript:;" 
+               class="text-secondary font-weight-bold text-xs" 
+               onclick="openModal('userModal{{ forloop.counter }}')">Details</a>
+            </td>
+            </tr>
+            <!-- Modal Overlay -->
+            <div id="modalOverlay{{ forloop.counter }}" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+               background: rgba(0, 0, 0, 0.5); z-index: 999;"></div>
+            
+            <!-- Modal Content -->
+            <div id="userModal{{ forloop.counter }}" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+               width: 50%; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); z-index: 1000; overflow: hidden;">
+            <div style="padding: 10px; display: flex; justify-content: space-between; align-items: center; background: #f4f4f4;">
+              <h5 style="margin: 0;">User Details</h5>
+              <button onclick="closeModal('userModal{{ forloop.counter }}')" 
+                  style="background: none; border: none; font-size: 18px; cursor: pointer;">&times;</button>
+            </div>
+            <div style="padding: 20px;">
+              <!-- User Card -->
+              <div class="card user-card-full">
+              <div class="row m-l-0 m-r-0">
+                <div class="col-sm-4 bg-c-lite-green user-profile">
+                <div class="card-block text-center text-white">
+                  <div class="m-b-25">
+                  <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image">
+                  </div>
+                  <h6 class="f-w-600">{{ cand.applicant }}</h6>
+                  <p></p>
+                  <i class="mdi mdi-square-edit-outline feather icon-edit m-t-10 f-16"></i>
+                </div>
+                </div>
+                <div class="col-sm-8">
+                <div class="card-block">
+                  <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+                  <div class="row">
+                  <div class="col-sm-6">
+                    <p class="m-b-10 f-w-600">Email</p>
+                    <h6 class="text-muted f-w-400">{{ cand.applicant.email }}</h6>
+                  </div>
+                  <div class="col-sm-6">
+                    <p class="m-b-10 f-w-600">Phone</p>
+                    <h6 class="text-muted f-w-400">{{ cand.applicant.phone_number }}</h6>
+                  </div>
+                  </div>
+                  <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Socials</h6>
+                  <div class="row">
+                  <div class="col-sm-6">
+                    <a href="{{ cand.applicant.linkedin }}">
+                    <h6 class="text-muted f-w-400">LinkedIn</h6>
+                    </a>
+                  </div>
+                  <div class="col-sm-6">
+                    <a href="{{ cand.applicant.github }}">
+                    <h6 class="text-muted f-w-400">Github</h6>
+                    </a>
+                  </div>
+                  </div>
+                  <button type="button" class="btn btn-primary">Send Invite</button>
+                </div>
+                </div>
+              </div>
+              </div>
+            </div>
+            </div>
+          {% endfor %}
+          {% endif %}
+          </tbody>
+          </table>
+        </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = 'block';
+      document.getElementById('modalOverlay' + modalId.replace('userModal', '')).style.display = 'block';
+    }
+    
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+      document.getElementById('modalOverlay' + modalId.replace('userModal', '')).style.display = 'none';
+    }
+    </script>
+    
+  
+  <!--   Core JS Files   -->
+<script src="{% static 'assets/js/core/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/smooth-scrollbar.min.js' %}"></script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+      var options = {
+        damping: '0.5'
+      }
+      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+  </script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="{% static 'assets/js/argon-dashboard.min.js' %}?v=2.1.0"></script>
+</body>
+<style>body {
+    background-color: #f9f9fa
+}
+
+.padding {
+    padding: 3rem !important
+}
+
+.user-card-full {
+    overflow: hidden;
+}
+
+.card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
+    box-shadow: 0 1px 20px 0 rgba(69,90,100,0.08);
+    border: none;
+    margin-bottom: 30px;
+}
+
+.m-r-0 {
+    margin-right: 0px;
+}
+
+.m-l-0 {
+    margin-left: 0px;
+}
+
+.user-card-full .user-profile {
+    border-radius: 5px 0 0 5px;
+}
+
+.bg-c-lite-green {
+        background: -webkit-gradient(linear, left top, right top, from(#f29263), to(#ee5a6f));
+    background: linear-gradient(to right, #ee5a6f, #f29263);
+}
+
+.user-profile {
+    padding: 20px 0;
+}
+
+.card-block {
+    padding: 1.25rem;
+}
+
+.m-b-25 {
+    margin-bottom: 25px;
+}
+
+.img-radius {
+    border-radius: 5px;
+}
+
+
+ 
+h6 {
+    font-size: 14px;
+}
+
+.card .card-block p {
+    line-height: 25px;
+}
+
+@media only screen and (min-width: 1400px){
+p {
+    font-size: 14px;
+}
+}
+
+.card-block {
+    padding: 1.25rem;
+}
+
+.b-b-default {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.m-b-20 {
+    margin-bottom: 20px;
+}
+
+.p-b-5 {
+    padding-bottom: 5px !important;
+}
+
+.card .card-block p {
+    line-height: 25px;
+}
+
+.m-b-10 {
+    margin-bottom: 10px;
+}
+
+.text-muted {
+    color: #919aa3 !important;
+}
+
+.b-b-default {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.f-w-600 {
+    font-weight: 600;
+}
+
+.m-b-20 {
+    margin-bottom: 20px;
+}
+
+.m-t-40 {
+    margin-top: 20px;
+}
+
+.p-b-5 {
+    padding-bottom: 5px !important;
+}
+
+.m-b-10 {
+    margin-bottom: 10px;
+}
+
+.m-t-40 {
+    margin-top: 20px;
+}
+
+.user-card-full .social-link li {
+    display: inline-block;
+}
+
+.user-card-full .social-link li a {
+    font-size: 20px;
+    margin: 0 10px 0 0;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+
+</style>
+</html>
